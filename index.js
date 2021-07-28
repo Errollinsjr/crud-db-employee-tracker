@@ -36,15 +36,15 @@ const start = () => {
           addDepartment();
           break;
 
-        case 'Search for a specific song':
+        case 'Update employee roles':
           update();
           break;
 
-        case 'Find all artists who appear more than once':
-          multiSearch();
+        case 'View departments, roles, or employees?':
+          viewAll();
           break;
 
-        case 'Find all artists who appear more than once':
+        case 'Delete departments, roles, and employees':
           deleteFromDb();
           break;   
 
@@ -167,4 +167,36 @@ const addDepartment = () => {
     });
 };
 
+const viewAll = () => {
+  connection.query('SELECT * FROM employee', (err, res) => {
+    if (err) throw err;
+    console.log('\n');
+    console.log('--------------Employees------------');
+    res.forEach(({ first_name, last_name, role_id  }) => {
+      console.log(`FirstName: ${first_name} | LastName: ${last_name} | RoleId: ${role_id}`);
+    });
+    console.log('-----------------------------------');
+  });
 
+    connection.query('SELECT * FROM department', (err, res) => {
+    if (err) throw err;
+    console.log('\n');
+    console.log('-------------Departments------------');
+    res.forEach(({ department_name }) => {
+      console.log(`DepartmentName: ${department_name}`);
+    });
+    console.log('-----------------------------------');
+    console.log('\n');
+  });
+
+    connection.query('SELECT * FROM employeeRole', (err, res) => {
+    if (err) throw err;
+    console.log('----------------Roles--------------');
+    res.forEach(({ title, salary, department_id  }) => {
+      console.log(`Title: ${title} | Salary: ${salary} | DepartmentId: ${department_id}`);
+    });
+    console.log('-----------------------------------');
+    console.log('\n');
+  });
+  start();
+};
