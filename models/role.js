@@ -1,5 +1,4 @@
 const { Model, DataTypes } = require('sequelize');
-const { validate } = require('../config/connection');
 const sequelize = require('../config/connection');
 const Department= require('./department');
 
@@ -38,7 +37,7 @@ Role.init(
     timestamps: false,
     freezeTableName: true,
     underscored: true,
-    modelName: 'product_tag',
+    modelName: 'role',
   }
 );
 

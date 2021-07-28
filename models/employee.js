@@ -30,6 +30,13 @@ Employee.init(
         model: Role,
         key: 'id',
       },
+    },
+    manager_id: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: Role,
+        key: 'id',
+      },
     },  
   },
   {
@@ -37,7 +44,7 @@ Employee.init(
     timestamps: false,
     freezeTableName: true,
     underscored: true,
-    modelName: 'product',
+    modelName: 'employee',
   }
 );
 
