@@ -18,7 +18,7 @@ const start = () => {
         'Add departments',
         'View departments, roles, or employees?',
         'Update employee roles',
-        'Delete departments, roles, and employees',
+        'Delete employee',
         'exit',
       ],
     })
@@ -37,15 +37,15 @@ const start = () => {
           break;
 
         case 'Update employee roles':
-          update();
+          updateRole();
           break;
 
         case 'View departments, roles, or employees?':
           viewAll();
           break;
 
-        case 'Delete departments, roles, and employees':
-          deleteFromDb();
+        case 'Delete employee':
+          deleteEmployee();
           break;   
 
         case 'exit':
@@ -75,7 +75,7 @@ const addEmployee = () => {
       {
         name: 'roleId',
         type: 'list',
-        message: 'What is the role? 1 is Game Developer, 2 is Cyber Security Analyst, 3 is iT specialist, 4 is Software Developer, 5 is Hardware Developer, and 7 is special for Manager',
+        message: 'What is the role? 1 is Game Developer, 2 is Cyber Security Analyst, 3 is iT specialist, 4 is Software Developer, 5 is Hardware Developer, and 7 is special for Manager\n',
         choices: [
         '1',
         '2',
@@ -118,7 +118,7 @@ const addRole = () => {
       {
         name: 'departmentId',
         type: 'list',
-        message: 'What is the role? 1 is Game Department, 2 is Cyber Department, 3 is iT department, 4 is Software Department, 5 is Hardware Department',
+        message: 'What is the department? 1 is Game Department, 2 is Cyber Department, 3 is iT department, 4 is Software Department, 5 is Hardware Department\n',
         choices: [
         '1',
         '2',
@@ -192,11 +192,79 @@ const viewAll = () => {
     connection.query('SELECT * FROM employeeRole', (err, res) => {
     if (err) throw err;
     console.log('----------------Roles--------------');
-    res.forEach(({ title, salary, department_id  }) => {
+    res.forEach(({ title, salary, department_id }) => {
       console.log(`Title: ${title} | Salary: ${salary} | DepartmentId: ${department_id}`);
     });
     console.log('-----------------------------------');
     console.log('\n');
   });
   start();
+};
+
+const deleteEmployee= () => {
+  console.log('Deleting employee..\n');
+  inquirer
+    .prompt([
+      {
+        name: 'deletion',
+        type: 'input',
+        message: 'Type what you want to delete by',
+      }
+    ])
+      .then((answer) => {
+  const query = 'DELETE FROM employee WHERE ?';     
+  connection.query(query,
+    {
+      first_name: answer.deletion,
+    },
+    (err) => {
+      if (err) throw err;
+      console.log(`deleted.....`);
+      console.log('\n');
+      start();
+    });  
+  });
+};
+
+const updateRole= () => {
+  console.log('Updating employees role...\n');
+  inquirer
+    .prompt([
+      {
+        name: 'updateRoleId',
+        type: 'list',
+        message: 'What is the updated role? 1 is Game Developer, 2 is Cyber Security Analyst, 3 is iT specialist, 4 is Software Developer, 5 is Hardware Developer, and 7 is special for Manager\n',
+        choices: [
+        '1',
+        '2',
+        '3',
+        '4',
+        '5',
+        '7',
+        ]
+      },
+      {
+        name: 'firstName',
+        type: 'input',
+        message: 'Type name of Employee one wishes to update'
+      } 
+    ])
+      .then((answer) => {
+  const query = 'UPDATE employee SET ? WHERE ?';     
+  connection.query(query,
+    [
+    {
+      role_id: answer.updateRoleId,
+    },
+    {
+      first_name: answer.firstName
+    }
+    ],
+    (err) => {
+      if (err) throw err;
+      console.log(`updated.....`);
+      console.log('\n');
+      start();
+    });  
+  });
 };
