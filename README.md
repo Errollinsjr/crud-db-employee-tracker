@@ -16,7 +16,7 @@ Able to
 
 ## Walkthrough
 
-![Walkthrough](https://vimeo.com/580141275)
+[Video](https://vimeo.com/580141275)
 
 ## GitHub:
 
